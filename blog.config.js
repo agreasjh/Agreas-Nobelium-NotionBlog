@@ -5,7 +5,7 @@ const BLOG = {
   link: 'https://nobelium.vercel.app',
   description: "Agreas'Blog",
   lang: 'zh-CN', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']
-  timezone: 'Asia/Beijing', // 您的notion帖子的日期将被解释为这个时区。参见https://en.Wikipedia.org/wiki/List_of_tz_database_time_zones所有选项。
+  timezone: 'Asia/Shanghai', // 您的notion帖子的日期将被解释为这个时区。参见https://en.Wikipedia.org/wiki/List_of_tz_database_time_zones所有选项。
   appearance: 'auto', // ['light', 'dark', 'auto'],
   font: 'sans-serif', // ['sans-serif', 'serif']
   lightBackground: '#ffffff', // 使用十六进制值，不要忘记'#'
