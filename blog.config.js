@@ -2,7 +2,7 @@ const BLOG = {
   title: '题序等君归 | 玻璃晴朗 橘子辉煌',
   author: '星际白兔糖ASTRAL',
   email: '577844432@qq.com',
-  link: 'https://nobelium.vercel.app',
+  link: 'https://link3.cc/agreas', //https://nobelium.vercel.app
   description: "Agreas'Blog",
   lang: 'zh-CN', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']
   timezone: 'Asia/Shanghai', // 您的notion帖子的日期将被解释为这个时区。参见https://en.Wikipedia.org/wiki/List_of_tz_database_time_zones所有选项。
