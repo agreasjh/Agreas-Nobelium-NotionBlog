@@ -3,7 +3,9 @@
     "INDEX": "Blog",
     "RSS": "RSS",
     "SEARCH": "Buscar",
-    "ABOUT": "Acerca de mí"
+    "ABOUT": "Acerca de mí",
+    "NAVIGATOR": "Enlace personal"
+    
   },
   "PAGINATION": {
     "PREV": "Anterior",
