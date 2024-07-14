@@ -8,7 +8,7 @@ const BLOG = {
   timezone: 'Asia/Shanghai', // 您的notion帖子的日期将被解释为这个时区。参见https://en.Wikipedia.org/wiki/List_of_tz_database_time_zones所有选项。
   appearance: 'auto', // ['light', 'dark', 'auto'],
   font: 'sans-serif', // ['sans-serif', 'serif']
-  lightBackground: '#ffffff', // 使用十六进制值，不要忘记'#'
+  lightBackground: '#FDFDF3', // 使用十六进制值，不要忘记'#'  #ffffff
   darkBackground: '#18181B', // 使用十六进制值，不要忘记'#'
   path: '', // 将此字段留空，除非您想在文件夹中部署Nobody
   since: 2024, // 如果留空，将使用当前年份。
