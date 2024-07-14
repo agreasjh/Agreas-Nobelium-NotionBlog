@@ -38,7 +38,7 @@ const BLOG = {
   },
   comment: {
     // 赞助商：gitalk，utterances，cusdis
-    provider: '', // 如果您不需要任何评论插件，请将其留空
+    provider: 'cusdis', // 如果您不需要任何评论插件，请将其留空
     gitalkConfig: {
       repo: '', // 商店评论的存储库
       owner: '',
@@ -51,7 +51,7 @@ const BLOG = {
       repo: ''
     },
     cusdisConfig: {
-      appId: '', // data-app-id
+      appId: '63b09186-a8aa-4bff-9f59-6563154251cb', // data-app-id
       host: 'https://cusdis.com', // data-host，如果您使用的是自托管版本，请更改此选项
       scriptSrc: 'https://cusdis.com/js/cusdis.es.js' // 如果您使用的是自托管版本，请更改此设置
     }
