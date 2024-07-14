@@ -1,6 +1,6 @@
 const BLOG = {
   title: '题序等君归 | 玻璃晴朗 橘子辉煌',
-  author: '星际白兔糖ASTRAL',
+  author: '晴空Agreas',
   email: '577844432@qq.com',
   link: 'https://link3.cc/agreas', //https://nobelium.vercel.app
   description: "Agreas'Blog",
