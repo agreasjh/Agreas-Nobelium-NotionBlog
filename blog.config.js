@@ -51,7 +51,7 @@ const BLOG = {
       repo: ''
     },
     cusdisConfig: {
-      appId: '63b09186-a8aa-4bff-9f59-6563154251cb', // data-app-id
+      appId: '0801c503-a5f3-44e3-8a76-a22298a071f5', // data-app-id
       host: 'https://cusdis.com', // data-host，如果您使用的是自托管版本，请更改此选项
       scriptSrc: 'https://cusdis.com/js/cusdis.es.js' // 如果您使用的是自托管版本，请更改此设置
     }
