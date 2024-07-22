@@ -8,7 +8,6 @@ import { createHash } from 'crypto'
 import Container from '@/components/Container'
 import Post from '@/components/Post'
 import Comments from '@/components/Comments'
-import { useEffect } from 'react'
 
 let notion = null
 
@@ -16,25 +15,6 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
   const router = useRouter()
   const BLOG = useConfig()
   const locale = useLocale()
-
-  useEffect(() => {
-    const search = router.query.search // 获取URL中的搜索关键词
-    if (search) {
-      const element = document.getElementById('search-result')
-      if (element) {
-        const content = JSON.stringify(post.content)
-        const index = content.toLowerCase().indexOf(search.toLowerCase())
-        if (index !== -1) {
-          const snippet = content.substring(index, index + 100) // 获取搜索关键词附近的内容
-          const snippetElement = document.createElement('div')
-          snippetElement.id = 'search-snippet'
-          snippetElement.textContent = `...${snippet}...`
-          document.body.appendChild(snippetElement)
-          snippetElement.scrollIntoView({ behavior: 'smooth' }) // 滚动到搜索关键词所在位置
-        }
-      }
-    }
-  }, [router.query.search])
 
   if (router.isFallback) return null
 
@@ -55,6 +35,7 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
         emailHash={emailHash}
         fullWidth={fullWidth}
       />
+
       <div
         className={cn(
           'px-4 flex justify-between font-medium text-gray-500 dark:text-gray-400 my-5',
@@ -81,6 +62,7 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
           </button>
         </a>
       </div>
+
       <Comments frontMatter={post} />
     </Container>
   )
