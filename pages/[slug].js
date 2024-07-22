@@ -1,7 +1,7 @@
 import { clientConfig } from '@/lib/server/config'
 import { useRouter } from 'next/router'
 import cn from 'classnames'
-import { getAllPosts, getPostBlocks } from '@/lib/notion'
+import { getAllPosts } from '@/lib/notion'
 import { useLocale } from '@/lib/locale'
 import { useConfig } from '@/lib/config'
 import { createHash } from 'crypto'
@@ -10,17 +10,12 @@ import Post from '@/components/Post'
 import Comments from '@/components/Comments'
 
 let notion = null
-if (typeof window === 'undefined') {
-  const { NotionAPI } = require('notion-client')
-  notion = new NotionAPI() // 初始化 notion-client
-}
 
 export default function BlogPost ({ post, blockMap, emailHash }) {
   const router = useRouter()
   const BLOG = useConfig()
   const locale = useLocale()
 
-  // TODO: It would be better to render something
   if (router.isFallback) return null
 
   const fullWidth = post.fullWidth ?? false
@@ -31,7 +26,6 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
       title={post.title}
       description={post.summary}
       slug={post.slug}
-      // date={new Date(post.publishedAt).toISOString()}
       type="article"
       fullWidth={fullWidth}
     >
@@ -42,7 +36,6 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
         fullWidth={fullWidth}
       />
 
-      {/* Back and Top */}
       <div
         className={cn(
           'px-4 flex justify-between font-medium text-gray-500 dark:text-gray-400 my-5',
@@ -89,10 +82,12 @@ export async function getStaticProps ({ params: { slug } }) {
 
   if (!post) return { notFound: true }
 
-  let blockMap = null
-  if (notion) {
-    blockMap = await notion.getPage(post.id) // 使用 notion-client 获取页面数据
+  if (!notion) {
+    const { NotionAPI } = await import('notion-client')
+    notion = new NotionAPI()
   }
+
+  const blockMap = await notion.getPage(post.id)
   const emailHash = createHash('md5')
     .update(clientConfig.email)
     .digest('hex')
