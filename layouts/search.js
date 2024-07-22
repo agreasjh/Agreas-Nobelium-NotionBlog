@@ -3,45 +3,16 @@ import BlogPost from '@/components/BlogPost'
 import Container from '@/components/Container'
 import Tags from '@/components/Tags'
 import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
 
 const SearchLayout = ({ tags, posts, currentTag }) => {
   const [searchValue, setSearchValue] = useState('')
-  const router = useRouter()
   let filteredBlogPosts = []
-
-  const getSnippet = (content, searchValue) => {
-    const plainText = JSON.stringify(content).replace(/<\/?[^>]+(>|$)|\\n|\\|["[\]]/g, '') // 去除HTML标签和不必要的符号
-    const index = plainText.toLowerCase().indexOf(searchValue.toLowerCase()) // 获取搜索关键词的位置
-    const snippetLength = 30
-    if (index === -1) return plainText.slice(0, snippetLength) + '...' // 如果找不到关键词，则返回内容开头的片段
-    const start = Math.max(0, index - snippetLength)
-    const end = Math.min(plainText.length, index + snippetLength)
-    return '...' + plainText.slice(start, end) + '...' // 返回包含关键词的上下文片段
-  }
-
-  if (posts && searchValue) { // 只有在有搜索内容时才进行过滤
+  if (posts) {
     filteredBlogPosts = posts.filter(post => {
       const tagContent = post.tags ? post.tags.join(' ') : ''
       const searchContent = post.title + post.summary + tagContent + post.content // 添加文章内容字段
       return searchContent.toLowerCase().includes(searchValue.toLowerCase())
-    }).map(post => ({
-      ...post,
-      snippet: getSnippet(post.content, searchValue) // 添加上下文片段
-    }))
-  }
-
-  const handleResultClick = async (post) => {
-    await router.push({
-      pathname: `/${post.slug}`,
-      query: { search: searchValue } // 将搜索关键词作为查询参数传递
     })
-    setTimeout(() => {
-      const element = document.getElementById('search-result')
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' }) // 页面加载后滚动到具体位置
-      }
-    }, 500)
   }
 
   return (
@@ -70,24 +41,21 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
           ></path>
         </svg>
       </div>
-      <Tags tags={tags} currentTag={currentTag} />
+      <Tags
+        tags={tags}
+        currentTag={currentTag}
+      />
       <div className="article-container my-8">
-        {!filteredBlogPosts.length && searchValue && ( // 在有搜索值但无结果时显示提示
+        {!filteredBlogPosts.length && (
           <p className="text-gray-500 dark:text-gray-300">No posts found.</p>
         )}
         {filteredBlogPosts.slice(0, 20).map(post => (
-          <div key={post.id} className="mb-4" onClick={() => handleResultClick(post)}>
-            <a className="block cursor-pointer">
-              <h2>{post.title}</h2>
-              <p className="text-gray-500 dark:text-gray-300">{post.snippet}</p> {/* 显示上下文片段 */}
-            </a>
-          </div>
+          <BlogPost key={post.id} post={post} />
         ))}
       </div>
     </Container>
   )
 }
-
 SearchLayout.propTypes = {
   posts: PropTypes.array.isRequired,
   tags: PropTypes.object.isRequired,
