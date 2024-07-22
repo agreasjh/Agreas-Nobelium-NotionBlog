@@ -28,7 +28,7 @@ export default function TableOfContents ({ blockMap, className, style }) {
   return (
     <aside
       className={cn(className, 'pl-4 text-sm text-zinc-700/70 dark:text-neutral-400')}
-      style={style}
+      style={{ ...style, overflowY: 'auto' }} // Add this line
     >
       {nodes.map(node => (
         <div key={node.id}>
