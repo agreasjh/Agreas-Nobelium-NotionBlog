@@ -32,11 +32,9 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
   }
 
   const handleResultClick = (post) => {
-    router.push(`/${post.slug}`).then(() => {
-      const element = document.querySelector(`#${searchValue}`)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' }) // 页面加载后滚动到具体位置
-      }
+    router.push({
+      pathname: `/${post.slug}`,
+      query: { search: searchValue }
     })
   }
 
