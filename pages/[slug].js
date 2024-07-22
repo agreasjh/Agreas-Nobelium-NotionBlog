@@ -18,11 +18,23 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
   const locale = useLocale()
 
   useEffect(() => {
-    const element = document.getElementById('search-result')
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' }) // 页面加载后滚动到具体位置
+    const search = router.query.search // 获取URL中的搜索关键词
+    if (search) {
+      const element = document.getElementById('search-result')
+      if (element) {
+        const content = JSON.stringify(post.content)
+        const index = content.toLowerCase().indexOf(search.toLowerCase())
+        if (index !== -1) {
+          const snippet = content.substring(index, index + 100) // 获取搜索关键词附近的内容
+          const snippetElement = document.createElement('div')
+          snippetElement.id = 'search-snippet'
+          snippetElement.textContent = `...${snippet}...`
+          document.body.appendChild(snippetElement)
+          snippetElement.scrollIntoView({ behavior: 'smooth' }) // 滚动到搜索关键词所在位置
+        }
+      }
     }
-  }, [])
+  }, [router.query.search])
 
   if (router.isFallback) return null
 
