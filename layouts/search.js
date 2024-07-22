@@ -31,11 +31,14 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
     }))
   }
 
-  const handleResultClick = (post) => {
-    router.push({
-      pathname: `/${post.slug}`,
-      query: { search: searchValue }
-    })
+  const handleResultClick = async (post) => {
+    await router.push(`/${post.slug}`)
+    setTimeout(() => {
+      const element = document.getElementById('search-result')
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' }) // 页面加载后滚动到具体位置
+      }
+    }, 500)
   }
 
   return (
