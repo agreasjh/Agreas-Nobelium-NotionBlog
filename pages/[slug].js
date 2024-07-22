@@ -1,5 +1,4 @@
 import { clientConfig } from '@/lib/server/config'
-
 import { useRouter } from 'next/router'
 import cn from 'classnames'
 import { getAllPosts, getPostBlocks } from '@/lib/notion'
@@ -9,9 +8,12 @@ import { createHash } from 'crypto'
 import Container from '@/components/Container'
 import Post from '@/components/Post'
 import Comments from '@/components/Comments'
-import { NotionAPI } from 'notion-client'
 
-const notion = new NotionAPI() // 初始化 notion-client
+let notion = null
+if (typeof window === 'undefined') {
+  const { NotionAPI } = require('notion-client')
+  notion = new NotionAPI() // 初始化 notion-client
+}
 
 export default function BlogPost ({ post, blockMap, emailHash }) {
   const router = useRouter()
@@ -87,7 +89,10 @@ export async function getStaticProps ({ params: { slug } }) {
 
   if (!post) return { notFound: true }
 
-  const blockMap = await notion.getPage(post.id) // 使用 notion-client 获取页面数据
+  let blockMap = null
+  if (notion) {
+    blockMap = await notion.getPage(post.id) // 使用 notion-client 获取页面数据
+  }
   const emailHash = createHash('md5')
     .update(clientConfig.email)
     .digest('hex')
