@@ -18,14 +18,14 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
   const locale = useLocale()
 
   useEffect(() => {
-    const hash = window.location.hash
-    if (hash) {
-      const element = document.querySelector(hash)
+    const { search } = router.query
+    if (search) {
+      const element = document.querySelector(`#${search}`)
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' }) // 页面加载后滚动到具体位置
       }
     }
-  }, [router.asPath])
+  }, [router.query])
 
   if (router.isFallback) return null
 
