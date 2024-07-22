@@ -10,15 +10,16 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
   let filteredBlogPosts = []
 
   const getSnippet = (content, searchValue) => {
-    const index = content.toLowerCase().indexOf(searchValue.toLowerCase()) // 获取搜索关键词的位置
+    const plainText = JSON.stringify(content).replace(/<\/?[^>]+(>|$)|\\n|\\|["[\]]/g, '') // 去除HTML标签和不必要的符号
+    const index = plainText.toLowerCase().indexOf(searchValue.toLowerCase()) // 获取搜索关键词的位置
     const snippetLength = 30
-    if (index === -1) return content.slice(0, snippetLength) + '...' // 如果找不到关键词，则返回内容开头的片段
+    if (index === -1) return plainText.slice(0, snippetLength) + '...' // 如果找不到关键词，则返回内容开头的片段
     const start = Math.max(0, index - snippetLength)
-    const end = Math.min(content.length, index + snippetLength)
-    return '...' + content.slice(start, end) + '...' // 返回包含关键词的上下文片段
+    const end = Math.min(plainText.length, index + snippetLength)
+    return '...' + plainText.slice(start, end) + '...' // 返回包含关键词的上下文片段
   }
 
-  if (posts) {
+  if (posts && searchValue) { // 只有在有搜索内容时才进行过滤
     filteredBlogPosts = posts.filter(post => {
       const tagContent = post.tags ? post.tags.join(' ') : ''
       const searchContent = post.title + post.summary + tagContent + post.content // 添加文章内容字段
@@ -57,7 +58,7 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
       </div>
       <Tags tags={tags} currentTag={currentTag} />
       <div className="article-container my-8">
-        {!filteredBlogPosts.length && (
+        {!filteredBlogPosts.length && searchValue && ( // 在有搜索值但无结果时显示提示
           <p className="text-gray-500 dark:text-gray-300">No posts found.</p>
         )}
         {filteredBlogPosts.slice(0, 20).map(post => (
