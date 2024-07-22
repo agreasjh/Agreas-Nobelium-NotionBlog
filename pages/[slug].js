@@ -25,7 +25,7 @@ export default function BlogPost ({ post, blockMap, emailHash }) {
         element.scrollIntoView({ behavior: 'smooth' }) // 页面加载后滚动到具体位置
       }
     }
-  }, [])
+  }, [router.asPath])
 
   if (router.isFallback) return null
 
