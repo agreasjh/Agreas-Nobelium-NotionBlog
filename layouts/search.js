@@ -10,7 +10,7 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
   if (posts) {
     filteredBlogPosts = posts.filter(post => {
       const tagContent = post.tags ? post.tags.join(' ') : ''
-      const searchContent = post.title + post.summary + tagContent
+      const searchContent = post.title + post.summary + tagContent + post.content // 添加文章内容字段
       return searchContent.toLowerCase().includes(searchValue.toLowerCase())
     })
   }
