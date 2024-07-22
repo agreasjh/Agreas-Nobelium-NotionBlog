@@ -32,7 +32,10 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
   }
 
   const handleResultClick = async (post) => {
-    await router.push(`/${post.slug}`)
+    await router.push({
+      pathname: `/${post.slug}`,
+      query: { search: searchValue } // 将搜索关键词作为查询参数传递
+    })
     setTimeout(() => {
       const element = document.getElementById('search-result')
       if (element) {
