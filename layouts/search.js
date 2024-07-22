@@ -3,10 +3,11 @@ import BlogPost from '@/components/BlogPost'
 import Container from '@/components/Container'
 import Tags from '@/components/Tags'
 import PropTypes from 'prop-types'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const SearchLayout = ({ tags, posts, currentTag }) => {
   const [searchValue, setSearchValue] = useState('')
+  const router = useRouter()
   let filteredBlogPosts = []
 
   const getSnippet = (content, searchValue) => {
@@ -28,6 +29,15 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
       ...post,
       snippet: getSnippet(post.content, searchValue) // 添加上下文片段
     }))
+  }
+
+  const handleResultClick = (post) => {
+    router.push(`/${post.slug}`).then(() => {
+      const element = document.querySelector(`#${searchValue}`)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' }) // 页面加载后滚动到具体位置
+      }
+    })
   }
 
   return (
@@ -62,13 +72,11 @@ const SearchLayout = ({ tags, posts, currentTag }) => {
           <p className="text-gray-500 dark:text-gray-300">No posts found.</p>
         )}
         {filteredBlogPosts.slice(0, 20).map(post => (
-          <div key={post.id} className="mb-4">
-            <Link href={`/${post.slug}#${searchValue}`}>
-              <a className="block">
-                <h2>{post.title}</h2>
-                <p className="text-gray-500 dark:text-gray-300">{post.snippet}</p> {/* 显示上下文片段 */}
-              </a>
-            </Link>
+          <div key={post.id} className="mb-4" onClick={() => handleResultClick(post)}>
+            <a className="block cursor-pointer">
+              <h2>{post.title}</h2>
+              <p className="text-gray-500 dark:text-gray-300">{post.snippet}</p> {/* 显示上下文片段 */}
+            </a>
           </div>
         ))}
       </div>
