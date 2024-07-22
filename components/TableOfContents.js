@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { getPageTableOfContents } from 'notion-utils'
 import cn from 'classnames'
 
-export default function TableOfContents ({ blockMap, className, style }) {
+export default function TableOfContents({ blockMap, className, style }) {
   const collectionId = Object.keys(blockMap.collection)[0]
   const page = Object.values(blockMap.block).find(block => block.value.parent_id === collectionId).value
   const nodes = getPageTableOfContents(page, blockMap)
@@ -12,7 +12,7 @@ export default function TableOfContents ({ blockMap, className, style }) {
   /**
    * @param {string} id - The ID of target heading block (could be in UUID format)
    */
-  function scrollTo (id) {
+  function scrollTo(id) {
     id = id.replaceAll('-', '')
     const target = document.querySelector(`.notion-block-${id}`)
     if (!target) return
@@ -25,10 +25,15 @@ export default function TableOfContents ({ blockMap, className, style }) {
     })
   }
 
+  function handleScroll(event) {
+    event.stopPropagation()
+  }
+
   return (
     <aside
       className={cn(className, 'pl-4 text-sm text-zinc-700/70 dark:text-neutral-400')}
-      style={{ ...style, overflowY: 'auto' }} // Add this line
+      style={{ ...style, overflowY: 'auto', maxHeight: '100vh' }}
+      onWheel={handleScroll}
     >
       {nodes.map(node => (
         <div key={node.id}>
