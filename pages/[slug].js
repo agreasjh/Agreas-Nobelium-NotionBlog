@@ -9,6 +9,9 @@ import { createHash } from 'crypto'
 import Container from '@/components/Container'
 import Post from '@/components/Post'
 import Comments from '@/components/Comments'
+import { NotionAPI } from 'notion-client'
+
+const notion = new NotionAPI() // 初始化 notion-client
 
 export default function BlogPost ({ post, blockMap, emailHash }) {
   const router = useRouter()
@@ -84,7 +87,7 @@ export async function getStaticProps ({ params: { slug } }) {
 
   if (!post) return { notFound: true }
 
-  const blockMap = await getPostBlocks(post.id)
+  const blockMap = await notion.getPage(post.id) // 使用 notion-client 获取页面数据
   const emailHash = createHash('md5')
     .update(clientConfig.email)
     .digest('hex')
