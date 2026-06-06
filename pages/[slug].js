@@ -84,7 +84,7 @@ export async function getStaticProps ({ params: { slug } }) {
 
   if (!notion) {
     const { NotionAPI } = await import('notion-client')
-    notion = new NotionAPI()
+    notion = new NotionAPI({ authToken: process.env.NOTION_ACCESS_TOKEN })
   }
 
   const blockMap = await notion.getPage(post.id)
